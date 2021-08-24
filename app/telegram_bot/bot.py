@@ -47,7 +47,13 @@ class Bot(Updater):
         valor = 5 
 
         if len(context.args) > 1:
-            valor = context.args[1]
+            try:
+                valor_received = int(context.args[1])
+                if valor_received > 0:
+                    valor = valor_received
+            except:
+                update.message.reply_text('Não foi possível criar entrada, paramentro "Valor" não é numérico.')
+                return
 
         user = update.message.from_user
 
