@@ -15,7 +15,6 @@ def run():
         url_path=TOKEN
     )
     bot.bot.setWebhook(SITE_URL + TOKEN)
-    
     # bot.start_polling()
 
     bot.idle()

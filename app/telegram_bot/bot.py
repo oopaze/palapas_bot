@@ -20,6 +20,13 @@ class Bot(Updater):
         self.dispatcher.add_handler(CommandHandler('nova', self.nova_entrada))
         self.dispatcher.add_handler(CommandHandler('pendencias', self.entradas_pendentes))
         self.dispatcher.add_handler(CommandHandler('deletar', self.deletar_entrada))
+        self.dispatcher.add_error_handler(self.error)
+
+    
+    def error(self, update, context):
+        """Log Errors caused by Updates."""
+        settings.logger.warning('Update "%s" caused error "%s"', update, context.error)
+        update.message.reply_text('Error: Tente novamente mais tarde.')
 
     
     def deletar_entrada(self, update, context):
@@ -66,7 +73,6 @@ class Bot(Updater):
         url = settings.API_ENDPOINTS["get_entradas"]['URL']
 
         response = getattr(r, method)(url)
-
         entradas = response.json()
 
         if entradas:
